@@ -13,8 +13,9 @@ import { connect } from 'react-redux'
 import { pathPrefix } from '../../../gatsby-config'
 import MediaQuery from "react-responsive";
 import { onSetSidebarDocked } from "../../actions/layout";
+import favicon from '../../images/chessicon.png'
 
-const Layout = ({ 
+const Layout = ({
   children,
   // setPostPageOn,
   // setPostPageOff,
@@ -42,7 +43,7 @@ const Layout = ({
     `}
     render={data => {
       const allPosts = data.allMarkdownRemark.edges.map(edge => edge.node.fields.slug)
-      let onPostPage 
+      let onPostPage
       if (typeof window !== 'undefined') {
         let path;
         if (pathPrefix.endsWith('/')) {
@@ -58,7 +59,7 @@ const Layout = ({
           onPostPage = false
         }
       }
-      
+
       return (
       <MediaQuery
         maxWidth={1000}
@@ -71,12 +72,15 @@ const Layout = ({
             { name: 'description', content: 'Sample' },
             { name: 'keywords', content: 'sample, something' },
           ]}
+          link={[
+            { rel: 'shortcut icon', type: 'image/png', href: `${favicon}`}
+          ]}
         >
           <html lang="en" />
         </Helmet>
         <Header siteTitle={data.site.siteMetadata.title} />
         {(matches && onPostPage) ? <ResponsiveTopBar root={sidebarRoot}/> : null}
-        {(!matches && onPostPage) ? 
+        {(!matches && onPostPage) ?
         <><ResponsiveSidebar root={sidebarRoot}/> <ResponsiveAnchor /> </>: null }
         <Container sidebarDocked={!matches} onPostPage={onPostPage}>
           {children}
