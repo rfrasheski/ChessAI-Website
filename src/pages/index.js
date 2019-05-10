@@ -4,6 +4,7 @@ import Button from 'antd/lib/button'
 import 'antd/lib/button/style/css'
 import { Link } from "gatsby"
 import Mascot from '../images/ChessMascot.png'
+import Board from '../components/Chessboard/'
 
 const IndexPage = () => {
   return (
@@ -24,6 +25,7 @@ const IndexPage = () => {
           </Link>*/}
           <Button type="primary" size="large" href="https://github.com/rfrasheski/ChessAI">Github</Button>
         </div>
+          <Board/>
         <div align="center">
         <br/>
         <br/>
