@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 //import Chess from 'chess.js'; // import Chess from  "chess.js"(default) if recieving an error about new Chess not being a constructor
 import Chess from  "chess.js"
 import Chessboard from 'chessboardjsx'
+import AI from './AI'
 
 class Game extends Component {
   static propTypes = { children: PropTypes.func };
@@ -23,6 +24,21 @@ class Game extends Component {
 
   componentDidMount() {
     this.game = new Chess();
+    this.engine = new AI()
+    var self = this;
+    this.engine.prepareMove(this.game);
+    setInterval(function() {
+      if (self.announced_game_over) {
+        return;
+      }
+
+      if (self.game.game_over()) {
+        self.announced_game_over = true;
+        console.log("GAME OVER");
+        // todo: graphics or some visual text output for this
+        // would be nice to have a play again button overlaid on top as well...
+      }
+    }, 500);
   }
 
   // keep clicked square style and remove hint squares
@@ -60,6 +76,7 @@ class Game extends Component {
   };
 
   onDrop = ({ sourceSquare, targetSquare }) => {
+    let turn = this.game.turn() === "w" ? "white" : "black";
     // see if the move is legal
     let move = this.game.move({
       from: sourceSquare,
@@ -69,11 +86,25 @@ class Game extends Component {
 
     // illegal move
     if (move === null) return;
-    this.setState(({ history, pieceSquare }) => ({
-      fen: this.game.fen(),
-      history: this.game.history({ verbose: true }),
-      squareStyles: squareStyling({ pieceSquare, history })
-    }));
+
+
+
+    return new Promise(resolve => {
+      this.engine.prepareMove(this.game)
+      this.setState(({ history, pieceSquare }) => ({
+        fen: this.game.fen(),
+        history: this.game.history({ verbose: true }),
+        squareStyles: squareStyling({ pieceSquare, history })
+      }));
+      resolve();
+    });
+
+    // this.setState(({ history, pieceSquare }) => ({
+    //   fen: this.game.fen(),
+    //   history: this.game.history({ verbose: true }),
+    //   squareStyles: squareStyling({ pieceSquare, history })
+    // }));
+
   };
 
   onMouseOverSquare = square => {

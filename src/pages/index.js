@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '../components/Layout'
 import Button from 'antd/lib/button'
 import 'antd/lib/button/style/css'
-import { Link } from "gatsby"
+// import { Link } from "gatsby"
 import Mascot from '../images/ChessMascot.png'
 import Board from '../components/Chessboard/'
 
