@@ -237,6 +237,6 @@ const boardsContainer = {
   justifyContent: "center",
   alignItems: "center",
   flexWrap: "wrap",
-  marginTop: 30,
+  marginTop: 50,
   marginBottom: 50
 };
