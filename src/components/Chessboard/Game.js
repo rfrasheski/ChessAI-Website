@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 //import Chess from 'chess.js'; // import Chess from  "chess.js"(default) if recieving an error about new Chess not being a constructor
-import Chess from  "chess.js"
+import Chess from  "./chess"
 import Chessboard from 'chessboardjsx'
 import AI from './AI'
 
@@ -87,8 +87,6 @@ class Game extends Component {
     // illegal move
     if (move === null) return;
 
-
-
     return new Promise(resolve => {
       this.engine.prepareMove(this.game)
       this.setState(({ history, pieceSquare }) => ({
@@ -98,13 +96,6 @@ class Game extends Component {
       }));
       resolve();
     });
-
-    // this.setState(({ history, pieceSquare }) => ({
-    //   fen: this.game.fen(),
-    //   history: this.game.history({ verbose: true }),
-    //   squareStyles: squareStyling({ pieceSquare, history })
-    // }));
-
   };
 
   onMouseOverSquare = square => {
