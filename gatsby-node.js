@@ -8,3 +8,17 @@
 
 exports.createPages = require('./gatsby/createPages')
 exports.onCreateNode = require('./gatsby/onCreateNode')
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+    if (stage === "build-html") {
+      actions.setWebpackConfig({
+        module: {
+          rules: [
+            {
+              test: /chessboardjsx/,
+              use: loaders.null(),
+            },
+          ],
+        },
+      })
+    }
+  }
