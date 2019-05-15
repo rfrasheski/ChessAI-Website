@@ -3,6 +3,7 @@ import Layout from '../components/Layout'
 import Button from 'antd/lib/button'
 import 'antd/lib/button/style/css'
 // import { Link } from "gatsby"
+import Poster from '../images/ChessAI.pdf'
 import Mascot from '../images/ChessMascot.png'
 import Board from '../components/Chessboard/'
 
@@ -19,6 +20,8 @@ const IndexPage = () => {
           <h2>A Game Of Skill</h2>
           <h3>Ryan Frasheski + Shang Yang</h3>
           <h4>frashesk@seattleu.edu  |  yangs8@seattleu.edu</h4>
+          <br/>
+          <embed style={{marginLeft: 0}} src={Poster} width="600" height="700" type="application/pdf"></embed>
           <br/>
           {/*}<Link to="">
             <Button type="primary" size="large" style={{marginRight: 10}}>Play</Button>
