@@ -5,9 +5,10 @@ class AI {
     if (!game.game_over()) {
       if (turn === "black") {
         // cpu turn
-        let mv = calcBestMoveOne(game)
-        console.log("mv: " + mv)
-        game.move(mv)
+        //let mv = calcBestMoveOne(game)
+        let mv = calcBestMove(2, game)[1];
+        console.log("mv: " + mv);
+        game.move(mv);
       }
     }
   }
@@ -20,12 +21,13 @@ function heuristic(board) {
   const turn = board.turn(); // 'b' or 'w'
   const { materialWhite, materialBlack } = getMaterial(board) // numerical values
   console.log(materialWhite + " " + materialBlack)
-  if (turn == 'w') {
+  if (turn === 'w') {
     return materialWhite - materialBlack
   } else {
     return materialBlack - materialWhite
   }
 }
+
 
 var calcBestMoveOne = function(game) {
   // List all possible moves
@@ -107,4 +109,65 @@ function getMaterial(board) {
     materialWhite: white,
     materialBlack: black
   }
+}
+
+var calcBestMove = function(depth, game,
+                            alpha=Number.NEGATIVE_INFINITY,
+                            beta=Number.POSITIVE_INFINITY,
+                            isMaximizingPlayer=true) {
+  // Base case: evaluate board
+  if (depth === 0) {
+    //value = evaluateBoard(game.board(), playerColor);
+    var value = heuristic(game);
+    return [value, null];
+  }
+
+  // Recursive case: search possible moves
+  var bestMove = null; // best move not set yet
+  var possibleMoves = game.moves();
+  // Set random order for possible moves
+  possibleMoves.sort(function(a, b) {
+    return 0.5 - Math.random()
+  });
+  // Set a default best move value
+  var bestMoveValue = isMaximizingPlayer ? Number.NEGATIVE_INFINITY
+    : Number.POSITIVE_INFINITY;
+  // Search through all possible moves
+  for (var i = 0; i < possibleMoves.length; i++) {
+    var move = possibleMoves[i];
+    // Make the move, but undo before exiting loop
+    game.move(move);
+    // Recursively get the value from this move
+    value = calcBestMove(depth - 1, game, alpha, beta, !isMaximizingPlayer)[0];
+    // Log the value of this move
+    console.log(isMaximizingPlayer ? 'Max: ' : 'Min: ', depth, move, value,
+      bestMove, bestMoveValue);
+
+    if (isMaximizingPlayer) {
+      // Look for moves that maximize position
+      if (value > bestMoveValue) {
+        bestMoveValue = value;
+        bestMove = move;
+      }
+      alpha = Math.max(alpha, value);
+    } else {
+      // Look for moves that minimize position
+      if (value < bestMoveValue) {
+        bestMoveValue = value;
+        bestMove = move;
+      }
+      beta = Math.min(beta, value);
+    }
+    // Undo previous move
+    game.undo();
+    // Check for alpha beta pruning
+    if (beta <= alpha) {
+      console.log('Prune', alpha, beta);
+      break;
+    }
+  }
+  // Log the best move at the current depth
+  console.log('Depth: ' + depth + ' | Best Move: ' + bestMove + ' | ' + bestMoveValue + ' | A: ' + alpha + ' | B: ' + beta);
+  // Return the best move, or the only move
+  return [bestMoveValue, bestMove || possibleMoves[0]];
 }
