@@ -21,7 +21,7 @@ const IndexPage = () => {
           <h3>Ryan Frasheski + Shang Yang</h3>
           <h4>frashesk@seattleu.edu  |  yangs8@seattleu.edu</h4>
           <br/>
-          <embed style={{marginLeft: 0}} src={Poster} width="600" height="700" type="application/pdf"></embed>
+          <embed style={{marginLeft: 0}} src={Poster} width="600" height="700" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html" type="application/pdf"></embed>
           <br/>
           {/*}<Link to="">
             <Button type="primary" size="large" style={{marginRight: 10}}>Play</Button>
