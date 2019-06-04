@@ -20,19 +20,20 @@ export default AI
 // get a numerical score for the cpu (black's) position
 function heuristic(game) {
   const turn = game.turn(); // 'b' or 'w'
-  const { materialWhite, materialBlack } = getMaterial(game) // numerical values
-  console.log(materialWhite + " " + materialBlack)
-  if (turn === 'w') {
+  if (turn == 'w') {
     if (game.in_checkmate()) {
-      return Number.NEGATIVE_INFINITY
+      console.log("w checkmate")
+      return 10000
     }
-    return materialBlack - materialWhite 
   } else {
     if (game.in_checkmate()) {
-      return Number.POSITIVE_INFINITY
+      console.log("b checkmate")
+      return -10000
     }
-    return materialBlack - materialWhite
   }
+  const { materialWhite, materialBlack } = getMaterial(game) // numerical values
+  console.log(materialWhite + " " + materialBlack)
+  return materialBlack - materialWhite
 }
 
 function getMaterial(board) {
@@ -42,12 +43,6 @@ function getMaterial(board) {
   outerloop:
   for (const char of fen) {
     switch(char) {
-      case 'k':
-        black += 10000
-        break;
-      case 'K':
-        white += 10000
-        break;
       case 'q':
         black += 25
         break;
