@@ -19,7 +19,9 @@ class Game extends Component {
     // currently clicked square
     square: "",
     // array of past game moves
-    history: []
+    history: [],
+    // if chess game is over
+    gameOver: "GAME ON"
   };
 
   componentDidMount() {
@@ -89,10 +91,15 @@ class Game extends Component {
 
     return new Promise(resolve => {
       this.engine.prepareMove(this.game)
-      this.setState(({ history, pieceSquare }) => ({
+      let gOver = "GAME ON"
+      if (this.game.game_over()) {
+        gOver = "GAME OVER"
+      }
+      this.setState(({ history, pieceSquare, gameOver }) => ({
         fen: this.game.fen(),
         history: this.game.history({ verbose: true }),
-        squareStyles: squareStyling({ pieceSquare, history })
+        squareStyles: squareStyling({ pieceSquare, history }),
+        gameOver: gOver
       }));
       resolve();
     });
@@ -156,7 +163,7 @@ class Game extends Component {
     });
 
   render() {
-    const { fen, dropSquareStyle, squareStyles } = this.state;
+    const { fen, dropSquareStyle, squareStyles, gameOver } = this.state;
 
     return this.props.children({
       squareStyles,
@@ -167,7 +174,8 @@ class Game extends Component {
       dropSquareStyle,
       onDragOverSquare: this.onDragOverSquare,
       onSquareClick: this.onSquareClick,
-      onSquareRightClick: this.onSquareRightClick
+      onSquareRightClick: this.onSquareRightClick,
+      gameOver: gameOver
     });
   }
 }
@@ -186,28 +194,34 @@ export default function WithMoveValidation() {
             dropSquareStyle,
             onDragOverSquare,
             onSquareClick,
-            onSquareRightClick
+            onSquareRightClick,
+            gameOver
           }) => (
-            <Chessboard
-              id="Game"
-              width={500}
-              position={position}
-              onDrop={onDrop}
-              onMouseOverSquare={onMouseOverSquare}
-              onMouseOutSquare={onMouseOutSquare}
-              boardStyle={{
-                borderRadius: "5px",
-                boxShadow: `0 5px 15px rgba(0, 0, 0, 0.5)`
-              }}
-              squareStyles={squareStyles}
-              dropSquareStyle={dropSquareStyle}
-              onDragOverSquare={onDragOverSquare}
-              onSquareClick={onSquareClick}
-              onSquareRightClick={onSquareRightClick}
-            />
-          )}
-        </Game>
-      </div>
+            <div>
+              <div style = {statusContainer}>
+                <h3>{gameOver}</h3>
+              </div>
+              <Chessboard
+                id="Game"
+                width={500}
+                position={position}
+                onDrop={onDrop}
+                onMouseOverSquare={onMouseOverSquare}
+                onMouseOutSquare={onMouseOutSquare}
+                boardStyle={{
+                  borderRadius: "5px",
+                  boxShadow: `0 5px 15px rgba(0, 0, 0, 0.5)`
+                }}
+                squareStyles={squareStyles}
+                dropSquareStyle={dropSquareStyle}
+                onDragOverSquare={onDragOverSquare}
+                onSquareClick={onSquareClick}
+                onSquareRightClick={onSquareRightClick}
+              />
+            </div>
+        )}
+      </Game>
+    </div> 
     )
   }
   return null
@@ -232,11 +246,16 @@ const squareStyling = ({ pieceSquare, history }) => {
   };
 };
 
+const statusContainer = {
+  display: "inline",
+  textAlign: "center",
+  marginTop: 90,
+};
+
 const boardsContainer = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   flexWrap: "wrap",
-  marginTop: 50,
   marginBottom: 50
 };
