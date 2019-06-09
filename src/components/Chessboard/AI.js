@@ -17,8 +17,92 @@ class AI {
 
 export default AI
 
+var reverseArray = function(array) {
+  return array.slice().reverse();
+};
+
+var pawnEvalWhite =
+  [
+    [0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
+    [5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0],
+    [1.0,  1.0,  2.0,  3.0,  3.0,  2.0,  1.0,  1.0],
+    [0.5,  0.5,  1.0,  2.5,  2.5,  1.0,  0.5,  0.5],
+    [0.0,  0.0,  0.0,  2.0,  2.0,  0.0,  0.0,  0.0],
+    [0.5, -0.5, -1.0,  0.0,  0.0, -1.0, -0.5,  0.5],
+    [0.5,  1.0, 1.0,  -2.0, -2.0,  1.0,  1.0,  0.5],
+    [0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0]
+  ];
+
+var pawnEvalBlack = reverseArray(pawnEvalWhite);
+
+var knightEval =
+  [
+    [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0],
+    [-4.0, -2.0,  0.0,  0.0,  0.0,  0.0, -2.0, -4.0],
+    [-3.0,  0.0,  1.0,  1.5,  1.5,  1.0,  0.0, -3.0],
+    [-3.0,  0.5,  1.5,  2.0,  2.0,  1.5,  0.5, -3.0],
+    [-3.0,  0.0,  1.5,  2.0,  2.0,  1.5,  0.0, -3.0],
+    [-3.0,  0.5,  1.0,  1.5,  1.5,  1.0,  0.5, -3.0],
+    [-4.0, -2.0,  0.0,  0.5,  0.5,  0.0, -2.0, -4.0],
+    [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0]
+  ];
+
+var bishopEvalWhite = [
+  [ -2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0],
+  [ -1.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -1.0],
+  [ -1.0,  0.0,  0.5,  1.0,  1.0,  0.5,  0.0, -1.0],
+  [ -1.0,  0.5,  0.5,  1.0,  1.0,  0.5,  0.5, -1.0],
+  [ -1.0,  0.0,  1.0,  1.0,  1.0,  1.0,  0.0, -1.0],
+  [ -1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0, -1.0],
+  [ -1.0,  0.5,  0.0,  0.0,  0.0,  0.0,  0.5, -1.0],
+  [ -2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0]
+];
+
+var bishopEvalBlack = reverseArray(bishopEvalWhite);
+
+var rookEvalWhite = [
+  [  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
+  [  0.5,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  0.5],
+  [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+  [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+  [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+  [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+  [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+  [  0.0,   0.0, 0.0,  0.5,  0.5,  0.0,  0.0,  0.0]
+];
+
+var rookEvalBlack = reverseArray(rookEvalWhite);
+
+var evalQueen =
+  [
+    [ -2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0],
+    [ -1.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -1.0],
+    [ -1.0,  0.0,  0.5,  0.5,  0.5,  0.5,  0.0, -1.0],
+    [ -0.5,  0.0,  0.5,  0.5,  0.5,  0.5,  0.0, -0.5],
+    [  0.0,  0.0,  0.5,  0.5,  0.5,  0.5,  0.0, -0.5],
+    [ -1.0,  0.5,  0.5,  0.5,  0.5,  0.5,  0.0, -1.0],
+    [ -1.0,  0.0,  0.5,  0.0,  0.0,  0.0,  0.0, -1.0],
+    [ -2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0]
+  ];
+
+var kingEvalWhite = [
+
+  [ -3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [ -3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [ -3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [ -3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+  [ -2.0, -3.0, -3.0, -4.0, -4.0, -3.0, -3.0, -2.0],
+  [ -1.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -1.0],
+  [  2.0,  2.0,  0.0,  0.0,  0.0,  0.0,  2.0,  2.0 ],
+  [  2.0,  3.0,  1.0,  0.0,  0.0,  1.0,  3.0,  2.0 ]
+];
+
+var kingEvalBlack = reverseArray(kingEvalWhite);
+
 // get a numerical score for the cpu (black's) position
 function heuristic(game) {
+  var black = 0;
+  var white = 0;
   const turn = game.turn(); // 'b' or 'w'
   if (turn == 'w') {
     if (game.in_checkmate()) {
@@ -31,60 +115,40 @@ function heuristic(game) {
       return -10000
     }
   }
-  const { materialWhite, materialBlack } = getMaterial(game) // numerical values
-  console.log(materialWhite + " " + materialBlack)
-  return materialBlack - materialWhite
-}
-
-function getMaterial(board) {
-  let fen = board.fen()
-  let black = 0
-  let white = 0;
-  outerloop:
-  for (const char of fen) {
-    switch(char) {
-      case 'q':
-        black += 25
-        break;
-      case 'Q':
-        white += 25
-        break;
-      case 'r':
-        black += 15
-        break;
-      case 'R':
-        white += 15
-        break;
-      case 'b':
-        black += 8
-        break;
-      case 'B':
-        white += 8
-        break;
-      case 'n':
-        black += 8
-        break;
-      case 'N':
-        white += 8
-        break;
-      case 'p':
-        black += 1
-        break;
-      case 'P':
-        white += 1
-        break;
-      case ' ':
-        break outerloop;
-      default:
-        break;
+  for (var i = 0; i < 8; i++) {
+    for (var j = 0; j < 8; j++) {
+      var piece = game.board()[i][j];
+      if (piece != null) {
+        if (piece.color == 'w') {
+          white = white + getMaterial(piece, i, j, true);
+        } else {
+          black = black + getMaterial(piece, i, j, false);
+        }
+      }
     }
   }
-  return {
-    materialWhite: white,
-    materialBlack: black
-  }
+  console.log(white + " " + black);
+  return black - white;
 }
 
+function getMaterial(piece, x, y, isWhite) {
+  switch(piece.type) {
+    case 'q':
+      return 100 + evalQueen[y][x];
+    case 'r':
+      return 50 + (isWhite ? rookEvalWhite[y][x] : rookEvalBlack[y][x]);
+    case 'b':
+      return 25 + bishopEvalBlack[y][x];
+    case 'n':
+      return 25 + knightEval[y][x];
+    case 'p':
+      return 10 + (isWhite ? pawnEvalWhite[y][x] : pawnEvalBlack[y][x]);
+    case'k':
+      return 500 + (isWhite ? kingEvalWhite[y][x] : kingEvalBlack[y][x]);
+    default:
+      return 0;
+  }
+}
 const CACHE_SIZE = 10000000000
 const scoreCache = new LRU(CACHE_SIZE)  // board fen to heuristic value - prevent recalculation of heuristic?
 // root node is our start position
