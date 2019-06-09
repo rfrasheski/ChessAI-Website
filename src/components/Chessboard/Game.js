@@ -235,9 +235,6 @@ export default function WithMoveValidation() {
             statusMessage
           }) => (
             <div>
-              <div style = {statusContainer}>
-                <h3>{statusMessage}</h3>
-              </div>
               <Chessboard
                 id="Game"
                 width={500}
@@ -296,3 +293,9 @@ const boardsContainer = {
   flexWrap: "wrap",
   marginBottom: 50
 };
+
+/*
+              <div style = {statusContainer}>
+                <h3>{statusMessage}</h3>
+              </div>
+*/
