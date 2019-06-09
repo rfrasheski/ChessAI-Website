@@ -5,6 +5,7 @@
   "author": "Ryan Frasheski",
   "dependencies": {
     "antd": "^3.10.8",
+    "chess.js": "^0.10.2",
     "chessboardjsx": "^2.3.0",
     "gatsby": "^2.0.19",
     "gatsby-cli": "^2.4.15",
