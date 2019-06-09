@@ -1,4 +1,4 @@
-import LRU from './LRU'
+import LRU from './lru'
 
 const CACHE_SIZE = 1000000
 const scoreCache = new LRU(CACHE_SIZE)  // State -> { lower, upper, move }
