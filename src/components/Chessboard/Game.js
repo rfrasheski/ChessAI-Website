@@ -86,22 +86,9 @@ class Game extends Component {
     if (move === null) return;
 
     return new Promise(resolve => {
-      let status = this.state.statusMessage
-      if (this.game.game_over()) {
-        status = "GAME OVER"
-      } else {
-        status = "CPU Turn (Black)"
-      }
-      this.setState(({ history, pieceSquare }) => ({
-        fen: this.game.fen(),
-        history: this.game.history({ verbose: true }),
-        squareStyles: squareStyling({ pieceSquare, history }),
-        statusMessage: status
-      }));
-
       this.engine.prepareMove(this.game)
 
-      status = this.state.statusMessage
+      let status = this.state.statusMessage
       if (this.game.game_over()) {
         status = "GAME OVER"
       } else {
@@ -235,6 +222,9 @@ export default function WithMoveValidation() {
             statusMessage
           }) => (
             <div>
+              <div style = {statusContainer}>
+                <h3>{statusMessage}</h3>
+              </div>
               <Chessboard
                 id="Game"
                 width={500}
