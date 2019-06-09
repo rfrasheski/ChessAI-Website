@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-//import Chess from 'chess.js'; // import Chess from  "chess.js"(default) if recieving an error about new Chess not being a constructor
 import Chess from  "./chess"
 import Chessboard from 'chessboardjsx'
 import AI from './AI'
@@ -20,8 +19,8 @@ class Game extends Component {
     square: "",
     // array of past game moves
     history: [],
-    // if chess game is over
-    gameOver: "GAME ON"
+    // status header displayed on top of chessboard
+    statusMessage: "Player turn (White)"
   };
 
   componentDidMount() {
@@ -37,8 +36,6 @@ class Game extends Component {
       if (self.game.game_over()) {
         self.announced_game_over = true;
         console.log("GAME OVER");
-        // todo: graphics or some visual text output for this
-        // would be nice to have a play again button overlaid on top as well...
       }
     }, 500);
   }
@@ -78,28 +75,43 @@ class Game extends Component {
   };
 
   onDrop = ({ sourceSquare, targetSquare }) => {
-    let turn = this.game.turn() === "w" ? "white" : "black";
     // see if the move is legal
     let move = this.game.move({
       from: sourceSquare,
       to: targetSquare,
-      promotion: "q" // always promote to a queen for example simplicity
+      promotion: "q"
     });
 
     // illegal move
     if (move === null) return;
 
     return new Promise(resolve => {
-      this.engine.prepareMove(this.game)
-      let gOver = "GAME ON"
+      let status = this.state.statusMessage
       if (this.game.game_over()) {
-        gOver = "GAME OVER"
+        status = "GAME OVER"
+      } else {
+        status = "CPU Turn (Black)"
       }
-      this.setState(({ history, pieceSquare, gameOver }) => ({
+      this.setState(({ history, pieceSquare }) => ({
         fen: this.game.fen(),
         history: this.game.history({ verbose: true }),
         squareStyles: squareStyling({ pieceSquare, history }),
-        gameOver: gOver
+        statusMessage: status
+      }));
+
+      this.engine.prepareMove(this.game)
+
+      status = this.state.statusMessage
+      if (this.game.game_over()) {
+        status = "GAME OVER"
+      } else {
+        status = "Player turn (White)"
+      }
+      this.setState(({ history, pieceSquare }) => ({
+        fen: this.game.fen(),
+        history: this.game.history({ verbose: true }),
+        squareStyles: squareStyling({ pieceSquare, history }),
+        statusMessage: status
       }));
       resolve();
     });
@@ -150,10 +162,35 @@ class Game extends Component {
     // illegal move
     if (move === null) return;
 
-    this.setState({
-      fen: this.game.fen(),
-      history: this.game.history({ verbose: true }),
-      pieceSquare: ""
+    return new Promise(resolve => {
+      let status = this.state.statusMessage
+      if (this.game.game_over()) {
+        status = "GAME OVER"
+      } else {
+        status = "CPU Turn (Black)"
+      }
+      this.setState(({ history, pieceSquare }) => ({
+        fen: this.game.fen(),
+        history: this.game.history({ verbose: true }),
+        squareStyles: squareStyling({ pieceSquare, history }),
+        statusMessage: status
+      }));
+
+      this.engine.prepareMove(this.game)
+
+      status = this.state.statusMessage
+      if (this.game.game_over()) {
+        status = "GAME OVER"
+      } else {
+        status = "Player turn (White)"
+      }
+      this.setState(({ history, pieceSquare }) => ({
+        fen: this.game.fen(),
+        history: this.game.history({ verbose: true }),
+        squareStyles: squareStyling({ pieceSquare, history }),
+        statusMessage: status
+      }));
+      resolve();
     });
   };
 
@@ -163,7 +200,7 @@ class Game extends Component {
     });
 
   render() {
-    const { fen, dropSquareStyle, squareStyles, gameOver } = this.state;
+    const { fen, dropSquareStyle, squareStyles, statusMessage } = this.state;
 
     return this.props.children({
       squareStyles,
@@ -175,7 +212,7 @@ class Game extends Component {
       onDragOverSquare: this.onDragOverSquare,
       onSquareClick: this.onSquareClick,
       onSquareRightClick: this.onSquareRightClick,
-      gameOver: gameOver
+      statusMessage: statusMessage,
     });
   }
 }
@@ -195,11 +232,11 @@ export default function WithMoveValidation() {
             onDragOverSquare,
             onSquareClick,
             onSquareRightClick,
-            gameOver
+            statusMessage
           }) => (
             <div>
               <div style = {statusContainer}>
-                <h3>{gameOver}</h3>
+                <h3>{statusMessage}</h3>
               </div>
               <Chessboard
                 id="Game"

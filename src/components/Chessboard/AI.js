@@ -1,13 +1,13 @@
-// import Chess from 'chess.js'
-import LRU from './lru'
+import LRU from './LRU'
+const SEARCH_DEPTH = 4;
 
 class AI {
   prepareMove(game) {
     let turn = game.turn() === "w" ? "white" : "black";
     if (!game.game_over()) {
       if (turn === "black") {
-        // cpu turn
-        let mv = getNextMove(4, game);
+        // ensure it is cpu turn
+        let mv = getNextMove(game, SEARCH_DEPTH);
         console.log("mv: " + mv);
         game.move(mv);
       }
@@ -22,12 +22,10 @@ function heuristic(game) {
   const turn = game.turn(); // 'b' or 'w'
   if (turn == 'w') {
     if (game.in_checkmate()) {
-      console.log("w checkmate")
       return 10000
     }
   } else {
     if (game.in_checkmate()) {
-      console.log("b checkmate")
       return -10000
     }
   }
@@ -85,9 +83,8 @@ function getMaterial(board) {
   }
 }
 
-const CACHE_SIZE = 10000000000
-const scoreCache = new LRU(CACHE_SIZE)  // board fen to heuristic value - prevent recalculation of heuristic?
-// root node is our start position
+const CACHE_SIZE = 1000000
+const scoreCache = new LRU(CACHE_SIZE)  // State -> { lower, upper, move }
 
 class State {
   constructor(pos, depth, root) {
@@ -114,7 +111,6 @@ function iterativeDeepening(game, depth) {
     firstGuess = sResult.value
     var delta = Date.now() - start
     if (delta > 5000) break
-    // if times_up() break
     d++
   }
 
@@ -135,8 +131,6 @@ function mtdf(game, f, depth) {
     }
     sResult = alphaBetaLookup(depth, game, beta - 1, beta)
     value = sResult.value
-    // console.log(`value: ${value}`)
-    // console.log(`mtdf: ${sResult.move}`)
     if (value < beta) {
       upperBound = value
     } else {
@@ -226,6 +220,6 @@ function alphaBetaLookup(depth, game, alpha=Number.NEGATIVE_INFINITY, beta=Numbe
   return new searchResult(bestMoveValue, bestMove)
 }
 
-function getNextMove(depth, game) {
+function getNextMove(game, depth) {
   return iterativeDeepening(game, depth).move 
 }
