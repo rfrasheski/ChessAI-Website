@@ -2,6 +2,7 @@ import LRU from './LRU'
 
 const CACHE_SIZE = 1000000
 const scoreCache = new LRU(CACHE_SIZE)  // State -> { lower, upper, move }
+const heuristicCache = new LRU(CACHE_SIZE)
 const SEARCH_DEPTH = 4;
 
 class AI {
@@ -104,6 +105,11 @@ var kingEvalBlack = reverseArray(kingEvalWhite);
 
 // get a numerical score for the cpu (black's) position
 function heuristic(game) {
+  let key = { pos: game.fen() }
+  let cacheScore = heuristicCache.read(key)
+  if (cacheScore) {
+    return cacheScore
+  }
   var black = 0;
   var white = 0;
   const turn = game.turn(); // 'b' or 'w'
@@ -128,6 +134,8 @@ function heuristic(game) {
       }
     }
   }
+  let score = black - white
+  heuristicCache.write(key, score)
   console.log(white + " " + black);
   return black - white;
 }
