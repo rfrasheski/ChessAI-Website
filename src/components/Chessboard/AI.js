@@ -1,3 +1,16 @@
+/*
+  Ryan Frasheski & Shang-Yi Yang
+
+  AI Logic for ChessAI.
+  Implements the mtdf algorithm with iterative deepening & alpha beta pruning with LRU cache.
+  mtdf allows more branches to be pruned by calling alpha beta iteratively with a smaller window.
+  More info on mtdf: https://people.csail.mit.edu/plaat/mtdf.html
+  
+  Board heuristics use a combination of material and piece position with values by piece score.
+  Heuristic scores are cached in their own LRU to reduce repeated calculation time.
+
+*/
+
 import LRU from './lru'
 
 const CACHE_SIZE = 1000000
@@ -6,6 +19,7 @@ const heuristicCache = new LRU(CACHE_SIZE)
 const SEARCH_DEPTH = 4;
 
 class AI {
+  // calculate and perform the next move
   prepareMove(game) {
     let turn = game.turn() === "w" ? "white" : "black";
     if (!game.game_over()) {
@@ -159,6 +173,7 @@ function getMaterial(piece, x, y, isWhite) {
   }
 }
 
+// Used as a key for the LRU cache
 class State {
   constructor(pos, depth, root) {
     this.pos = pos
@@ -167,6 +182,7 @@ class State {
   }
 }
 
+// Return object for alphaBetaLookup
 class searchResult {
   constructor(value, move) {
     this.value = value
@@ -174,6 +190,7 @@ class searchResult {
   }
 }
 
+// Calls mtdf search in iterative search depths
 function iterativeDeepening(game, depth) {
   var start = Date.now()
   var sResult = null
@@ -190,6 +207,7 @@ function iterativeDeepening(game, depth) {
   return sResult
 }
 
+// https://people.csail.mit.edu/plaat/mtdf.html
 function mtdf(game, f, depth) {
   var sResult = null
   var value = f
@@ -213,6 +231,7 @@ function mtdf(game, f, depth) {
   return sResult
 }
 
+// Alpha beta search with LRU cache lookup
 function alphaBetaLookup(depth, game, alpha=Number.NEGATIVE_INFINITY, beta=Number.POSITIVE_INFINITY, maxPlayer=true, root=true) {
   let curState = new State(game.fen(), depth, root)
   let entry = scoreCache.read(curState)
@@ -293,6 +312,7 @@ function alphaBetaLookup(depth, game, alpha=Number.NEGATIVE_INFINITY, beta=Numbe
   return new searchResult(bestMoveValue, bestMove)
 }
 
+// helper function to abstract the AI.prepareMove function from search implementation
 function getNextMove(game, depth) {
   return iterativeDeepening(game, depth).move 
 }
