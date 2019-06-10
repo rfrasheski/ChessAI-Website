@@ -4,6 +4,9 @@
   AI Logic for ChessAI.
   Implements the mtdf algorithm with iterative deepening & alpha beta pruning with LRU cache.
   mtdf allows more branches to be pruned by calling alpha beta iteratively with a smaller window.
+  However, without the lookup table mtdf would be VERY slow due to it being called with iterative deepening.
+  This leads to repeated searching of states even though many branches are pruned.
+
   More info on mtdf: https://people.csail.mit.edu/plaat/mtdf.html
   
   Board heuristics use a combination of material and piece position with values by piece score.

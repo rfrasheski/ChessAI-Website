@@ -25,7 +25,7 @@ const IndexPage = () => {
           {/*}<Link to="">
             <Button type="primary" size="large" style={{marginRight: 10}}>Play</Button>
           </Link>*/}
-          <Button type="primary" size="large" href="https://github.com/rfrasheski/ChessAI">Github</Button>
+          <Button type="primary" size="large" href="https://github.com/rfrasheski/ChessAI-Website">Github</Button>
         </div>
         <Board/>
         <div align="center">
