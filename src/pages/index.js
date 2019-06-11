@@ -4,7 +4,7 @@ import Button from 'antd/lib/button'
 import 'antd/lib/button/style/css'
 import Poster from '../images/ChessAI.pdf'
 import Mascot from '../images/ChessMascot.png'
-import Board from '../components/Chessboard/'
+import { Link } from "gatsby"
 
 const IndexPage = () => {
   return (
@@ -20,7 +20,8 @@ const IndexPage = () => {
           <h3>Ryan Frasheski + Shang Yang</h3>
           <h4>frashesk@seattleu.edu  |  yangs8@seattleu.edu</h4>
           <br/>
-          <Button type="primary" size="large" href="https://chessai.ryanfrasheski.com/play">Play Now!</Button>
+          <Link to="/play"><Button type="primary" size="large" style={{marginRight: 10}}>Play Now!</Button>
+          </Link>
           <span>    </span>
           <Button type="primary" size="large" href="https://github.com/rfrasheski/ChessAI-Website">Github</Button>
           <br />

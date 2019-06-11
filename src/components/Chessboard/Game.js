@@ -32,12 +32,33 @@ class Game extends Component {
       if (self.announced_game_over) {
         return;
       }
+      self.cpuMove()
 
       if (self.game.game_over()) {
         self.announced_game_over = true;
         console.log("GAME OVER");
       }
     }, 500);
+  }
+
+  cpuMove = () => {
+    return new Promise(resolve => {
+      this.engine.prepareMove(this.game)
+
+      let status = this.state.statusMessage
+      if (this.game.game_over()) {
+        status = "GAME OVER"
+      } else {
+        status = "Player turn (White)"
+      }
+      this.setState(({ history, pieceSquare }) => ({
+        fen: this.game.fen(),
+        history: this.game.history({ verbose: true }),
+        squareStyles: squareStyling({ pieceSquare, history }),
+        statusMessage: status
+      }));
+      resolve()
+    })
   }
 
   // keep clicked square style and remove hint squares
@@ -85,23 +106,20 @@ class Game extends Component {
     // illegal move
     if (move === null) return;
 
-    return new Promise(resolve => {
-      this.engine.prepareMove(this.game)
 
-      let status = this.state.statusMessage
-      if (this.game.game_over()) {
-        status = "GAME OVER"
-      } else {
-        status = "Player turn (White)"
-      }
-      this.setState(({ history, pieceSquare }) => ({
-        fen: this.game.fen(),
-        history: this.game.history({ verbose: true }),
-        squareStyles: squareStyling({ pieceSquare, history }),
-        statusMessage: status
-      }));
-      resolve();
-    });
+    let status = this.state.statusMessage
+    if (this.game.game_over()) {
+      status = "GAME OVER"
+    } else {
+      status = "CPU turn (Black)"
+    }
+    this.setState(({ history, pieceSquare, statusMessage }) => ({
+      fen: this.game.fen(),
+      history: this.game.history({ verbose: true }),
+      squareStyles: squareStyling({ pieceSquare, history }),
+      statusMessage: status
+    }));
+
   };
 
   onMouseOverSquare = square => {
