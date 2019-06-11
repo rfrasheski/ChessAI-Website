@@ -20,14 +20,13 @@ const IndexPage = () => {
           <h3>Ryan Frasheski + Shang Yang</h3>
           <h4>frashesk@seattleu.edu  |  yangs8@seattleu.edu</h4>
           <br/>
-          <embed style={{marginLeft: 0}} src={Poster} width="600" height="700" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html" type="application/pdf"></embed>
-          <br/>
-          {/*}<Link to="">
-            <Button type="primary" size="large" style={{marginRight: 10}}>Play</Button>
-          </Link>*/}
+          <Button type="primary" size="large" href="https://chessai.ryanfrasheski.com/play">Play Now!</Button>
+          <span>    </span>
           <Button type="primary" size="large" href="https://github.com/rfrasheski/ChessAI-Website">Github</Button>
+          <br />
+          <embed style={{marginLeft: 0, marginTop: 10}} src={Poster} width="600" height="700" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html" type="application/pdf"></embed>
+          <br/>
         </div>
-        <Board/>
         <div align="center">
         <br/>
         <br/>
@@ -37,7 +36,6 @@ const IndexPage = () => {
             the greatest chess grandmasters in the world. By incorporating the
             topics learned in our AI course, we will bestow upon it the power to
             crush its opponents mercilessly and effortlessly.
-            ChessAI will be made in Javascript and playable on this page.
           </h4>
           <br/>
           <h2>Libraries and References</h2>
@@ -47,7 +45,7 @@ const IndexPage = () => {
           <br/>
           <br/>
           <h4>
-            These libraries will provide the gameplay framework and GUI components that
+            These libraries provide the gameplay framework and GUI components that
             our own AI systems can use to interact with players and understand
             game state.
           </h4>
