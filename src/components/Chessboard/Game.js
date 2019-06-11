@@ -247,7 +247,6 @@ export default function WithMoveValidation() {
                 id="Game"
                 width={500}
                 position={position}
-                transitionDuration={0}
                 onDrop={onDrop}
                 onMouseOverSquare={onMouseOverSquare}
                 onMouseOutSquare={onMouseOutSquare}
@@ -290,21 +289,14 @@ const squareStyling = ({ pieceSquare, history }) => {
 };
 
 const statusContainer = {
-  display: "inline",
+  display: "flex",
+  flexDirection: "column",
   textAlign: "center",
-  marginTop: 90,
 };
 
 const boardsContainer = {
   display: "flex",
+  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  flexWrap: "wrap",
-  marginBottom: 50
 };
-
-/*
-              <div style = {statusContainer}>
-                <h3>{statusMessage}</h3>
-              </div>
-*/
