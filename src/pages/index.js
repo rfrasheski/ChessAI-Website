@@ -24,9 +24,16 @@ const IndexPage = () => {
           </Link>
           <span>    </span>
           <Button type="primary" size="large" href="https://github.com/rfrasheski/ChessAI-Website">Github</Button>
-          <br />
-          <embed style={{marginLeft: 0, marginTop: 10}} src={Poster} width="600" height="700" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html" type="application/pdf"></embed>
           <br/>
+        </div>
+        <div align="center">
+          <br/>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/hHDPBJdwhtU" frameBorder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen></iframe>
+        </div>
+        <div align="center">
+          <embed style={{marginLeft: 0, marginTop: 10}} src={Poster} width="600" height="700" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html" type="application/pdf"></embed>
         </div>
         <div align="center">
         <br/>
