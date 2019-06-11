@@ -247,6 +247,7 @@ export default function WithMoveValidation() {
                 id="Game"
                 width={500}
                 position={position}
+                transitionDuration={0}
                 onDrop={onDrop}
                 onMouseOverSquare={onMouseOverSquare}
                 onMouseOutSquare={onMouseOutSquare}
