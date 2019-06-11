@@ -32,7 +32,6 @@ class Game extends Component {
       if (self.announced_game_over) {
         return;
       }
-      self.cpuMove()
 
       if (self.game.game_over()) {
         self.announced_game_over = true;
@@ -106,20 +105,17 @@ class Game extends Component {
     // illegal move
     if (move === null) return;
 
-
     let status = this.state.statusMessage
     if (this.game.game_over()) {
       status = "GAME OVER"
     } else {
-      status = "CPU turn (Black)"
+      status = "CPU Turn (Black)"
     }
-    this.setState(({ history, pieceSquare, statusMessage }) => ({
-      fen: this.game.fen(),
-      history: this.game.history({ verbose: true }),
-      squareStyles: squareStyling({ pieceSquare, history }),
+    this.setState(({ history, pieceSquare }) => ({
       statusMessage: status
     }));
 
+    this.cpuMove()
   };
 
   onMouseOverSquare = square => {
