@@ -235,13 +235,13 @@ export default function WithMoveValidation() {
             onSquareRightClick,
             statusMessage
           }) => (
-            <div>
+            <div style={boardsContainer}>
               <div style = {statusContainer}>
                 <h3>{statusMessage}</h3>
               </div>
               <Chessboard
                 id="Game"
-                width={500}
+                width={400}
                 position={position}
                 onDrop={onDrop}
                 onMouseOverSquare={onMouseOverSquare}
