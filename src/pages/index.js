@@ -15,7 +15,6 @@ const IndexPage = () => {
           <h1 style={{color: "cornflowerblue", fontSize: 50, fontWeight: 'bold'}}>
             ChessAI
           </h1>
-          <img src={Mascot} alt="mascot"/>
           <h2>A Game Of Skill</h2>
           <h3>Ryan Frasheski + Shang Yang</h3>
           <h4>frashesk@seattleu.edu  |  yangs8@seattleu.edu</h4>
